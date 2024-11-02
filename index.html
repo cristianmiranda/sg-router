@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Website</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="flex items-center justify-center h-screen bg-gray-100">
+    <!-- Main Content -->
+    <div class="w-full max-w-xs mx-auto p-4">
+      <!-- Centered Logo at the Top -->
+      <div class="flex justify-center mb-6">
+        <img src="logo.png" alt="Pilar del Este Logo" class="h-16 w-auto" />
+      </div>
+
+      <!-- Number Input -->
+      <input
+        type="number"
+        id="numberInput"
+        class="w-full p-4 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Nº de LOTE"
+        min="1"
+        max="700"
+        required
+      />
+
+      <!-- Button -->
+      <button
+        onclick="handleSubmit()"
+        class="mt-4 w-full py-3 bg-blue-500 text-white text-lg font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        Ir
+      </button>
+    </div>
+
+    <script>
+      // JSON object with lot numbers as keys and only destination coordinates as values
+      const lotDestinations = {
+        362: "-34.385112, -58.883358",
+        513: "-34.387936, -58.881101",
+        // Add more lot numbers and destinations as needed
+      };
+
+      // Constant Google Maps URL template
+      const googleMapsUrlTemplate =
+        "https://www.google.com/maps/dir/?api=1&destination=<destination>&travelmode=driving&dir_action=navigate";
+
+      function handleSubmit() {
+        const numberInput = document.getElementById("numberInput");
+        const number = numberInput.value;
+
+        // Check if the entered number exists in the lotDestinations object
+        if (lotDestinations[number]) {
+          // Replace <destination> in the URL template with the actual destination coordinates
+          const destinationUrl = googleMapsUrlTemplate.replace(
+            "<destination>",
+            lotDestinations[number].replace(" ", "")
+          );
+          window.location.href = destinationUrl; // Redirect to the constructed Google Maps link
+        } else {
+          alert(
+            "No link available for this lot number. Please enter a valid number."
+          );
+        }
+      }
+
+      // Clear the input field on page load
+      window.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("numberInput").value = "";
+      });
+    </script>
+  </body>
+</html>
