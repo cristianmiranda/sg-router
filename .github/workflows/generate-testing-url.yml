@@ -1,0 +1,25 @@
+name: Update PR Description with Testing URL
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  update_pr_description:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Extract branch name
+        run: echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+
+      - name: Update PR description
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH_NAME: ${{ env.BRANCH_NAME }}
+        run: |
+          # Set the testing URL
+          TEST_URL="${BRANCH_NAME}.sg-comollego.pages.dev"
+          NEW_DESCRIPTION="Testing URL: ${TEST_URL}\n\n$(gh pr view ${{ github.event.pull_request.number }} --json body -q '.body')"
+
+          # Update the PR description
+          gh pr edit ${{ github.event.pull_request.number }} --body "$NEW_DESCRIPTION"
