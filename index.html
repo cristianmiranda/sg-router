@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -66,7 +66,7 @@
           if (coord) {
             const destinationUrl = googleMapsUrlTemplate.replace(
               "<destination>",
-              `${coord.coord.lat},${coord.coord.lng}`,
+              `${coord.coord.lat},${coord.coord.lng}`
             );
             window.location.href = destinationUrl;
           } else {
