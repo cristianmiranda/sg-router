@@ -80,6 +80,24 @@
       window.addEventListener("DOMContentLoaded", () => {
         document.getElementById("loteInput").value = "";
       });
+
+      // Swipe down to refresh feature
+      let startY;
+
+      window.addEventListener("touchstart", (event) => {
+        startY = event.touches[0].clientY;
+      });
+
+      window.addEventListener("touchmove", (event) => {
+        const endY = event.touches[0].clientY;
+        const distance = endY - startY;
+
+        // Check if swipe down is detected (distance threshold)
+        if (distance > 50) {
+          // Prevent accidental swipes triggering refresh
+          location.reload();
+        }
+      });
     </script>
   </body>
 </html>
