@@ -26,12 +26,11 @@
       </div>
 
       <input
-        type="number"
-        id="numberInput"
+        type="text"
+        id="loteInput"
         class="w-full p-4 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         placeholder="Nº de LOTE"
-        min="1"
-        max="700"
+        maxlength="4"
         required
       />
 
@@ -45,39 +44,41 @@
 
     <!-- Footer -->
     <footer class="mt-8 text-gray-500 text-sm">
-      🏡 Desarrollado por Cova - Miranda
+      👨‍💻 Desarrollado por Cova - Miranda
     </footer>
 
     <script>
-      const coordsUrl =
-        "http://bucket.sg-comollego.ar/coords.json";
+      const coordsUrl = "https://bucket.sg-comollego.ar/coords.json";
       const googleMapsUrlTemplate =
         "https://www.google.com/maps/dir/?api=1&destination=<destination>&travelmode=driving&dir_action=navigate";
 
       async function handleSubmit() {
-        const numberInput = document.getElementById("numberInput");
-        const number = numberInput.value;
+        const loteInput = document.getElementById("loteInput");
+        const unidadFuncional = loteInput.value;
+        console.log(unidadFuncional);
 
         try {
           const response = await fetch(coordsUrl);
           const coords = await response.json();
           console.log(coords);
-          coords.forEach((coord) => {
-            if (coord.lote === number) {
-              const destinationUrl = googleMapsUrlTemplate.replace(
-                "<destination>",
-                `${coord.coord.lat},${coord.coord.lng}`,
-              );
-              window.location.href = destinationUrl;
-            }
-          });
+          const coord = coords.find((item) => item.lote === unidadFuncional);
+
+          if (coord) {
+            const destinationUrl = googleMapsUrlTemplate.replace(
+              "<destination>",
+              `${coord.coord.lat},${coord.coord.lng}`,
+            );
+            window.location.href = destinationUrl;
+          } else {
+            alert("No se encontraron coordenadas para el lote ingresado");
+          }
         } catch (error) {
           console.error("Error al cargar los datos:", error);
         }
       }
 
       window.addEventListener("DOMContentLoaded", () => {
-        document.getElementById("numberInput").value = "";
+        document.getElementById("loteInput").value = "";
       });
     </script>
   </body>
