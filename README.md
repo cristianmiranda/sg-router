@@ -43,3 +43,7 @@ La aplicación permite ingresar el número de lote de Santa Guadalupe, y redirig
 ## QR
 
 <img src="assets/qr.png" width="300"/>
+
+## Mapeo de Lotes
+
+https://jsfiddle.net/cristianmiranda/tsuL9mrn/31/
